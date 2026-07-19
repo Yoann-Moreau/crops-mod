@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "crops-mod",
+	"version": "${version}",
+	"name": "crops-mod",
+	"description": "Makes harvesting crops in Minecraft easier.",
+	"authors": [
+		"Hironak"
+	],
+	"contact": {
+		"homepage": "https://ethilvan.fr/",
+		"sources": "https://github.com/Yoann-Moreau/crops-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/crops-mod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"fr.ethilvan.CropsMod"
+		],
+		"client": [
+			"fr.ethilvan.client.CropsModClient"
+		]
+	},
+	"mixins": [
+		"crops-mod.mixins.json",
+		{
+			"config": "crops-mod.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
