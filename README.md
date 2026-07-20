@@ -1,9 +1,8 @@
 # crops-mod
 
-## Setup
+crops-mod is a small mod for Minecraft 26.2. It alters harvesting of crops when hit with any hoe.
+Seed are not dropped and crops are automatically replanted.
 
-For setup instructions, please see the [Fabric Documentation page](https://docs.fabricmc.net/develop/getting-started/creating-a-project#setting-up) related to the IDE that you are using.
+## Installation
 
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+Install FabricMC, put FabricAPI and crops-mod jars into your mods folder.
