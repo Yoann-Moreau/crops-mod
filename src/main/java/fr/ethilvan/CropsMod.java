@@ -14,6 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.NetherWartBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -57,7 +58,8 @@ public class CropsMod implements ModInitializer {
 				blockEntity
 		) -> {
 			// Skip if not crop
-			if (!(state.getBlock() instanceof CropBlock crop)) {
+			Block block = state.getBlock();
+			if (!(block instanceof CropBlock) && !block.equals(Blocks.NETHER_WART)) {
 				return true;
 			}
 			// Skip if not a hoe
@@ -66,9 +68,18 @@ public class CropsMod implements ModInitializer {
 				return true;
 			}
 			// Skip if not fully grown
-			if (!crop.isMaxAge(state)) {
-				return false;
+			if (block instanceof CropBlock crop) {
+				if (!crop.isMaxAge(state)) {
+					return false;
+				}
 			}
+			else if (block.equals(Blocks.NETHER_WART)) {
+				int age = state.getValue(NetherWartBlock.AGE);
+				if (age != NetherWartBlock.MAX_AGE) {
+					return false;
+				}
+			}
+
 
 			// Manage drops
 			LootParams.Builder builder = new LootParams.Builder((ServerLevel) world)
@@ -92,7 +103,12 @@ public class CropsMod implements ModInitializer {
 			}
 
 			// Replant
-			world.setBlock(pos, crop.getStateForAge(0), CropBlock.UPDATE_ALL);
+			if (block instanceof CropBlock crop) {
+				world.setBlock(pos, crop.getStateForAge(0), CropBlock.UPDATE_ALL);
+			}
+			else if (block.equals(Blocks.NETHER_WART)) {
+				world.setBlock(pos, Blocks.NETHER_WART.defaultBlockState(), CropBlock.UPDATE_ALL);
+			}
 
 			// Drop remaining crops
 			for (ItemStack stack : drops) {
